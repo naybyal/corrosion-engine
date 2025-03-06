@@ -1,44 +1,57 @@
 {
     "segments": [
         {
-            "segment_id": "add",
+            "segment_id": "",
             "file": "output/segment_0.c",
-            "rust_file": "add.rs",
+            "rust_file": ".rs",
             "contained_symbols": [
-                "add"
+                ""
             ],
             "dependencies": []
         },
         {
-            "segment_id": "subtract",
+            "segment_id": "create_user",
             "file": "output/segment_1.c",
-            "rust_file": "subtract.rs",
+            "rust_file": "create_user.rs",
             "contained_symbols": [
-                "subtract"
+                "create_user"
             ],
-            "dependencies": []
+            "dependencies": [
+                "User"
+            ]
         },
         {
-            "segment_id": "multiply",
+            "segment_id": "display_user",
             "file": "output/segment_2.c",
-            "rust_file": "multiply.rs",
+            "rust_file": "display_user.rs",
             "contained_symbols": [
-                "multiply"
+                "display_user"
             ],
             "dependencies": []
         },
         {
-            "segment_id": "divide",
+            "segment_id": "save_user",
             "file": "output/segment_3.c",
-            "rust_file": "divide.rs",
+            "rust_file": "save_user.rs",
             "contained_symbols": [
-                "divide"
+                "save_user"
             ],
             "dependencies": []
+        },
+        {
+            "segment_id": "load_user",
+            "file": "output/segment_4.c",
+            "rust_file": "load_user.rs",
+            "contained_symbols": [
+                "load_user"
+            ],
+            "dependencies": [
+                "User"
+            ]
         },
         {
             "segment_id": "main",
-            "file": "output/segment_4.c",
+            "file": "output/segment_5.c",
             "rust_file": "main.rs",
             "contained_symbols": [
                 "main"

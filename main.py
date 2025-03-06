@@ -69,6 +69,7 @@ def main(input_file):
     dependency_graph = build_dependency_graph(symbols)
 
     logging.info("Segmenting code...")
+    # segments = segment_code(preprocessed_file, symbols, dependency_graph)
     segments = segment_code(preprocessed_file, symbols)
 
     logging.info("Generating metadata...")

@@ -1,75 +1,58 @@
-fn add(a: i32, b: i32) -> i32 {
-    a + b
-}
 
-fn subtract(a: i32, b: i32) -> Result<i32, InvalidInput> {
-    Ok(a - b)
+use std::ffi::CString;
+use std::os::raw::c_char;
+#[derive(Debug)]
+pub struct User {
+    pub id: i32,
+    pub name: String,
+    pub balance: f32,
 }
-
-fn multiply(a: i32, b: i32) -> i32 {
-    a * b
-}
-
-fn divide(a: i32, b: i32) -> Result<f32, String> {
-    if b == 0 {
-        return Err(String::from("Error: Division by zero!"));
+impl Drop for User {
+    fn drop(&mut self) {
+        println!("Dropping User: {:?}", self);
     }
-    Ok((a as f32) / (b as f32))
+}
+pub fn create_user(id: i32, name: &str, balance: f32) -> Result<Box<User>, &'static str> {
+    let name_cstr = CString::new(name)?;
+    let mut user_buff = Vec::with_capacity(std::mem::size_of::<User>());
+    user_buff.extend_from_slice(&id.to_le_bytes());
+    user_buff.extend_from_slice(name_cstr.as_bytes_with_nul());
+    user_buff.resize(user_buff.len() + (std::mem::size_of::<f32>() - 1), 0);
+    user_buff.extend_from_slice(&balance.to_le_bytes());
+    let user: User = unsafe { std::mem::transmute_copy(&user_buff) };
+    Ok(Box::new(user))
+}
+
+fn display_user(user: &Option<User>) {
+    if let Some(user) = user {
+        println!("User ID: {}", user.id);
+        println!("Name: {}", user.name);
+        println!("Balance: {:.2}", user.balance);
+    }
+}
+
+fn save_user(user: &User, filename: impl AsRef<Path>) -> Result<(), std::io::Error> {
+    let file = File::create(filename)?;
+    writeln!(&file, "{} , {} , {:.2}", user.id, user.name, user.balance)?;
+    Ok(())
+}
+
+fn load_user(filename: &str) -> Result<User, String> {
+    let file = File::open(filename).map_err(|e| e.to_string())?;
+    let mut user = User::new();
+    if let Err(e) = user.load(&mut BufReader::new(file)) {
+        return Err(e.to_string());
+    }
+    Ok(user)
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut x = String::new();
-    let mut y = String::new();
-    let mut choice = String::new();
-    println!("Enter two numbers: ");
-    std::io::stdin().read_line(&mut x)?;
-    std::io::stdin().read_line(&mut y)?;
-    println!("Choose operation:\n1 - Add\n2 - Subtract\n3 - Multiply\n4 - Divide\n");
-    std::io::stdin().read_line(&mut choice)?;
-    let x: i32 = x.trim().parse()?;
-    let y: i32 = y.trim().parse()?;
-    let choice: usize = choice.trim().parse()?;
-    let result: i32;
-    let result_f: f32;
-    match choice {
-        1 => {
-            result = add(x, y);
-            println!("Result: {}", result);
-        }
-        2 => {
-            result = subtract(x, y);
-            println!("Result: {}", result);
-        }
-        3 => {
-            result = multiply(x, y);
-            println!("Result: {}", result);
-        }
-        4 => {
-            if y == 0 {
-                return Err("Division by zero is not allowed!".into());
-            }
-            result_f = (x as f32) / (y as f32);
-            println!("Result: {:.2}", result_f);
-        }
-        _ => println!("Invalid choice!"),
-    }
-    println!("Looping through numbers 1 to 5:\n");
-    for i in 1..=5 {
-        print!("{} ", i);
-    }
-    println!();
+    let user1 = User::create(101, "Alice", 500.75)?;
+    user1.display()?;
+    user1.save("user_data.txt")?;
+    let loaded_user = User::load("user_data.txt")?;
+    println!("\nLoaded User from File:");
+    loaded_user.display()?;
     Ok(())
-}
-fn add(x: i32, y: i32) -> i32 {
-    x + y
-}
-fn subtract(x: i32, y: i32) -> i32 {
-    x - y
-}
-fn multiply(x: i32, y: i32) -> i32 {
-    x * y
-}
-fn divide(x: i32, y: i32) -> f32 {
-    (x as f32) / (y as f32)
 }
 

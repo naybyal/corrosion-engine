@@ -1,3 +1,5 @@
-int add(int a, int b) {
-    return a + b;
-}
+typedef struct {
+    int id;
+    char name[50];
+    float balance;
+} User;

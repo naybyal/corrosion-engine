@@ -13,7 +13,7 @@ def extract_symbols(file):
             clang.cindex.CursorKind.FUNCTION_DECL,
             clang.cindex.CursorKind.STRUCT_DECL,
             clang.cindex.CursorKind.UNION_DECL,
-            clang.cindex.CursorKind.MACRO_DEFINITION,
+            # clang.cindex.CursorKind.MACRO_DEFINITION,
             
         ):
             symbol = {
