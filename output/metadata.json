@@ -1,57 +1,44 @@
 {
     "segments": [
         {
-            "segment_id": "",
-            "file": "output/segment_0.c",
-            "rust_file": ".rs",
+            "segment_id": "add",
+            "file": "output/segment_0_add.c",
+            "rust_file": "add.rs",
             "contained_symbols": [
-                ""
+                "add"
             ],
             "dependencies": []
         },
         {
-            "segment_id": "create_user",
-            "file": "output/segment_1.c",
-            "rust_file": "create_user.rs",
+            "segment_id": "subtract",
+            "file": "output/segment_1_subtract.c",
+            "rust_file": "subtract.rs",
             "contained_symbols": [
-                "create_user"
-            ],
-            "dependencies": [
-                "User"
-            ]
-        },
-        {
-            "segment_id": "display_user",
-            "file": "output/segment_2.c",
-            "rust_file": "display_user.rs",
-            "contained_symbols": [
-                "display_user"
+                "subtract"
             ],
             "dependencies": []
         },
         {
-            "segment_id": "save_user",
-            "file": "output/segment_3.c",
-            "rust_file": "save_user.rs",
+            "segment_id": "multiply",
+            "file": "output/segment_2_multiply.c",
+            "rust_file": "multiply.rs",
             "contained_symbols": [
-                "save_user"
+                "multiply"
             ],
             "dependencies": []
         },
         {
-            "segment_id": "load_user",
-            "file": "output/segment_4.c",
-            "rust_file": "load_user.rs",
+            "segment_id": "divide",
+            "file": "output/segment_3_divide.c",
+            "rust_file": "divide.rs",
             "contained_symbols": [
-                "load_user"
+                "divide"
             ],
-            "dependencies": [
-                "User"
-            ]
+            "dependencies": []
         },
         {
             "segment_id": "main",
-            "file": "output/segment_5.c",
+            "file": "output/segment_4_main.c",
             "rust_file": "main.rs",
             "contained_symbols": [
                 "main"

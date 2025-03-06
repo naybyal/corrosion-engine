@@ -751,79 +751,69 @@
 # 1 "output/merged_main.c"
 
 
-typedef struct {
-    int id;
-    char name[50];
-    float balance;
-} User;
 
-
-User* create_user(int id, const char* name, float balance) {
-    User* user = (User*)malloc(sizeof(User));
-    if (user == NULL) {
-        printf("Memory allocation failed\n");
-        exit(1);
-    }
-    user->id = id;
-    strncpy(user->name, name, sizeof(user->name) - 1);
-    user->name[sizeof(user->name) - 1] = '\0';
-    user->balance = balance;
-    return user;
+int add(int a, int b) {
+    return a + b;
 }
 
 
-void display_user(const User* user) {
-    if (user != NULL) {
-        printf("User ID: %d\n", user->id);
-        printf("Name: %s\n", user->name);
-        printf("Balance: %.2f\n", user->balance);
-    }
+int subtract(int a, int b) {
+    return a - b;
 }
 
 
-void save_user(const User* user, const char* filename) {
-    FILE* file = fopen(filename, "w");
-    if (file == NULL) {
-        printf("Error opening file for writing\n");
-        exit(1);
-    }
-    fprintf(file, "%d,%s,%.2f\n", user->id, user->name, user->balance);
-    fclose(file);
+int multiply(int a, int b) {
+    return a * b;
 }
 
 
-User* load_user(const char* filename) {
-    FILE* file = fopen(filename, "r");
-    if (file == NULL) {
-        printf("Error opening file for reading\n");
-        return NULL;
+float divide(int a, int b) {
+    if (b == 0) {
+        printf("Error: Division by zero!\n");
+        return 0;
     }
-
-    User* user = (User*)malloc(sizeof(User));
-    if (user == NULL) {
-        printf("Memory allocation failed\n");
-        exit(1);
-    }
-
-    fscanf(file, "%d,%49[^,],%f", &user->id, user->name, &user->balance);
-    fclose(file);
-    return user;
+    return (float)a / b;
 }
-
 
 int main() {
-    User* user1 = create_user(101, "Alice", 500.75);
-    display_user(user1);
+    int x, y, choice;
 
-    save_user(user1, "user_data.txt");
+    printf("Enter two numbers: ");
+    scanf("%d %d", &x, &y);
 
-    User* loaded_user = load_user("user_data.txt");
-    if (loaded_user != NULL) {
-        printf("\nLoaded User from File:\n");
-        display_user(loaded_user);
-        free(loaded_user);
+    printf("Choose operation:\n");
+    printf("1 - Add\n2 - Subtract\n3 - Multiply\n4 - Divide\n");
+    scanf("%d", &choice);
+
+    int result;
+    float result_f;
+
+    switch (choice) {
+        case 1:
+            result = add(x, y);
+            printf("Result: %d\n", result);
+            break;
+        case 2:
+            result = subtract(x, y);
+            printf("Result: %d\n", result);
+            break;
+        case 3:
+            result = multiply(x, y);
+            printf("Result: %d\n", result);
+            break;
+        case 4:
+            result_f = divide(x, y);
+            printf("Result: %.2f\n", result_f);
+            break;
+        default:
+            printf("Invalid choice!\n");
     }
 
-    free(user1);
+    printf("Looping through numbers 1 to 5:\n");
+    for (int i = 1; i <= 5; i++) {
+        printf("%d ", i);
+    }
+    printf("\n");
+
     return 0;
 }

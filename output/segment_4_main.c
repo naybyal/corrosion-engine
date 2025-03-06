@@ -1,33 +1,6 @@
-
-#include <stdio.h>
-
-// Function to add two numbers
-int add(int a, int b) {
-    return a + b;
-}
-
-// Function to subtract two numbers
-int subtract(int a, int b) {
-    return a - b;
-}
-
-// Function to multiply two numbers
-int multiply(int a, int b) {
-    return a * b;
-}
-
-// Function to divide two numbers (handles division by zero)
-float divide(int a, int b) {
-    if (b == 0) {
-        printf("Error: Division by zero!\n");
-        return 0;
-    }
-    return (float)a / b;
-}
-
 int main() {
     int x, y, choice;
-    
+
     printf("Enter two numbers: ");
     scanf("%d %d", &x, &y);
 
@@ -37,7 +10,7 @@ int main() {
 
     int result;
     float result_f;
-    
+
     switch (choice) {
         case 1:
             result = add(x, y);
@@ -67,4 +40,3 @@ int main() {
 
     return 0;
 }
-

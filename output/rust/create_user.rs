@@ -1,23 +1,17 @@
-use std::ffi::CString;
-use std::os::raw::c_char;
 #[derive(Debug)]
-pub struct User {
-    pub id: i32,
-    pub name: String,
-    pub balance: f32,
+struct User {
+    id: i32,
+    name: String,
+    balance: f32,
 }
-impl Drop for User {
-    fn drop(&mut self) {
-        println!("Dropping User: {:?}", self);
+fn create_user(id: i32, name: &str, balance: f32) -> User {
+    User {
+        id,
+        name: {
+            let mut truncated_name = name.to_string();
+            truncated_name.truncate(255); // Assuming a 256-char buffer in C, leave space for null
+            truncated_name
+        },
+        balance,
     }
-}
-pub fn create_user(id: i32, name: &str, balance: f32) -> Result<Box<User>, &'static str> {
-    let name_cstr = CString::new(name)?;
-    let mut user_buff = Vec::with_capacity(std::mem::size_of::<User>());
-    user_buff.extend_from_slice(&id.to_le_bytes());
-    user_buff.extend_from_slice(name_cstr.as_bytes_with_nul());
-    user_buff.resize(user_buff.len() + (std::mem::size_of::<f32>() - 1), 0);
-    user_buff.extend_from_slice(&balance.to_le_bytes());
-    let user: User = unsafe { std::mem::transmute_copy(&user_buff) };
-    Ok(Box::new(user))
 }
